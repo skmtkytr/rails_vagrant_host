@@ -1,0 +1,31 @@
+---
+#- name: update apt cache
+#  yum: update_cache=yes # パッケージをアップデートします
+
+- name: install required packages
+  become: true
+  yum:
+    name: "{{ item }}"
+    state: installed # パッケージをインストールします
+  with_items:
+    - "@Development Tools"
+    - git
+    - "@Japanese Support"
+
+- name: use Japanese
+  become: yes
+  shell: "localectl set-locale LANG=ja_JP.UTF-8"
+
+- name: Check Public Key
+  stat: path=/home/vagrant/.ssh/eFriends_vm.pub # /home/vagrant/.ssh/eFriends_vm.pub ファイルが存在するかチェックします
+  register: deploy_key # ファイルが存在すれば True, 存在しなければ False を代入します
+
+- name: Send Public Key to VM
+  become: yes
+  copy: src=~/.ssh/eFriends_vm.pub dest={{ home }}/.ssh/ # Mac内の~/.ssh/eFriends_vm.pub ファイルをUbuntu内の/home/vagrant/.ssh/にコピーします
+  when: deploy_key.stat.exists == False # deploy_key がFalseの時にこのタスクを実行します
+
+- name: Copy Public Key to authorized_keys for vagrant
+  become: no
+  shell: "cat {{ home }}/.ssh/eFriends_vm.pub >> {{ home }}/.ssh/authorized_keys" # vagrantユーザーでログインして公開鍵の内容をauthorized_keysに追加します
+  when: deploy_key.stat.exists == False # deploy_key がFalseの時にこのタスクを実行します

@@ -1,0 +1,10 @@
+---
+- name: Install rails version "{{ rails.version }}"
+  become: true
+  become_user: "{{ rails.user }}"
+  gem:
+    name: rails
+    executable: .rbenv/shims/gem
+    version: "{{ rails.version }}"
+    user_install: no
+

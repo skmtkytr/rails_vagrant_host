@@ -1,0 +1,11 @@
+---
+- hosts: default
+  roles:
+    - rbenv
+    - rails
+  tags:
+    - rehash_rbenv
+  vars_prompt:
+    - name: "dbpassword"
+      prompt: "Please enter MariaDB rails user password"
+      default: "passw0rd"

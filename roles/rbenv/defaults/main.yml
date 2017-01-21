@@ -1,0 +1,4 @@
+---
+rbenv:
+  user: '{{ ansible_user_id }}'
+  ruby_version: 2.3.3

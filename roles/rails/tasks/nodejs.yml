@@ -1,0 +1,13 @@
+---
+- name: Prepare yum repository for nodejs
+  become: true
+  shell: curl --silent --location https://rpm.nodesource.com/setup | bash -
+
+- name: Install nodejs
+  become: true
+  yum:
+    name: "{{item}}"
+    state: installed
+  with_items:
+    - nodejs
+

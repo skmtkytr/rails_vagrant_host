@@ -1,0 +1,26 @@
+---
+- name: Install MariaDB
+  become: true
+  yum: 
+    name: "{{item}}" 
+    state: installed
+  with_items:
+    - MySQL-python
+    - mariadb-server
+    - mariadb-devel
+
+- name: Enable Service
+  become: true
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+
+- name: Create database user
+  become: true
+  mysql_user:
+    name: "{{dbuser}}"
+    password: "{{dbpassword}}"
+    priv: "*.*:ALL"
+    state: present 

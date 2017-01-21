@@ -1,0 +1,5 @@
+---
+rails:
+  user: '{{ ansible_user_id }}'
+  version: 5.0.1
+  appname: eFriends

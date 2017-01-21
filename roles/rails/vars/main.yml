@@ -1,0 +1,4 @@
+---
+dbuser: rails
+ruby_version: 2.3.3
+home: /home/vagrant
