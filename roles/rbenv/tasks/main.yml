@@ -72,6 +72,12 @@
   changed_when: False
   ignore_errors: True
 
+- name: Set default ruby version to {{ rbenv.ruby_version }}
+  become: true
+  become_user: "{{ rbenv.user }}"
+  shell: "~/.rbenv/bin/rbenv global {{ rbenv.ruby_version }}"
+  when: rbenv_check_default|failed
+
 - name: Update Gem System
   become: no
   shell: "~/.rbenv/shims/gem update --system"
