@@ -11,6 +11,7 @@
     - "@Development Tools"
     - git
     - "@Japanese Support"
+    - sqlite-devel
 
 - name: use Japanese
   become: yes
